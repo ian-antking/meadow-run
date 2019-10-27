@@ -1,6 +1,6 @@
-# Phaser 3 Webpack Project Template
+# Meadow Run
 
-A Phaser 3 Project Template
+A Phaser 3 infinite runner
 
 ### Requirements
 
