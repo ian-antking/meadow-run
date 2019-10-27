@@ -81,6 +81,8 @@ export default class PreloaderScene extends Phaser.Scene {
 
     this.timedEvent = this.time.delayedCall(1000, this.ready, [], this);
     this.load.image('logo', '../../assets/logo.png');
+    this.load.atlasXML('female-adventurer', 'assets/character_femaleAdventurer_sheet.png', 'assets/character_femaleAdventurer_sheet.xml');
+
   }
 
   create() {
