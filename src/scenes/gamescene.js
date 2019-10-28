@@ -15,6 +15,7 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.enable(this.ground);
     this.ground.body.setAllowGravity(false);
     this.ground.body.setImmovable(true);
+    this.ground.body.setVelocityX(-200);
     // this.ground.setGravity(0);
     this.player = new Player({
       scene: this,
@@ -23,5 +24,9 @@ export default class GameScene extends Phaser.Scene {
       x: 100,
       y: 200,
     });
+  }
+
+  update() {
+    this.player.update();
   }
 }

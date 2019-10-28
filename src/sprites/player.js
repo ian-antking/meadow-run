@@ -7,8 +7,11 @@ class Player extends Phaser.GameObjects.Sprite {
     this.spriteKey = config.key;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
-    this.body.setCollideWorldBounds(true);
     this.scene.physics.add.collider(this.scene.ground, this);
+  }
+
+  update() {
+    this.x = 100;
   }
 }
 
