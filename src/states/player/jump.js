@@ -6,11 +6,24 @@ class JumpState extends State {
   }
 
   enter() {
-    this.prefab.jump();
+    this.addDelayedCall('jumpTimer', 500, () => this.prefab.state.setState('fall'), [], this);
   }
 
-  execute() {
+  execute(controls) {
+    const {
+      jump,
+    } = controls;
+    if (jump.isDown) {
+      this.prefab.jump();
+    }
+    if (jump.isUp) {
+      return 'fall';
+    }
     return this.prefab.body.velocity.y > 0 ? 'fall' : this.name;
+  }
+
+  exit() {
+    this.cleanupTimers();
   }
 }
 

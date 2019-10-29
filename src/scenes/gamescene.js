@@ -12,7 +12,7 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.platformGroup = this.add.group();
-    this.addPlatform(this.game.config.width, 0);
+    this.addPlatform(this.game.config.width, 0, this.game.config.height - 70);
 
     this.controls = this.input.keyboard.addKeys({
       jump: 'up',
@@ -29,21 +29,15 @@ export default class GameScene extends Phaser.Scene {
     });
 
     this.cameras.main.setBackgroundColor('#ccccff');
-
-    this.time.addEvent({
-      delay: 700,
-      callback: () => this.addPlatform(70, this.game.config.width),
-      callbackScope: this,
-      repeat: -1,
-    });
   }
 
-  addPlatform(platformWidth, posX) {
+  addPlatform(platformWidth, posX, posY) {
+    const levels = [530, 460, 390, 320, 250, 180];
     this.platformGroup.add(new Platform({
       scene: this,
       x: posX,
-      y: this.game.config.height - 70,
-      width: platformWidth,
+      y: posY || levels[Math.floor(Math.random() * levels.length)],
+      width: platformWidth || Math.ceil(Math.random() * 12) * 70,
       height: 70,
       key: 'tiles',
       frame: 2,
@@ -51,12 +45,17 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
+    const platforms = this.platformGroup.getChildren();
+    const recentPlatform = platforms[platforms.length - 1];
     if (!this.player.isAlive || this.player.body.touching.right) {
       this.scene.restart();
     }
-    this.platformGroup.getChildren().forEach(platform => {
+    platforms.forEach(platform => {
       platform.update();
     });
+    if (recentPlatform.x + recentPlatform.width <= 800) {
+      this.addPlatform(null, 800);
+    }
     this.player.update(this.controls);
   }
 }

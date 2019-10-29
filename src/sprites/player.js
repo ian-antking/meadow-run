@@ -24,8 +24,12 @@ class Player extends Phaser.GameObjects.Sprite {
     return this.body.y < this.scene.game.config.height;
   }
 
+  addDelayedCall(time, callback, args, context) {
+    return this.scene.time.delayedCall(time, callback, args, context);
+  }
+
   jump() {
-    this.body.setVelocityY(-500);
+    this.body.setVelocityY(-300);
   }
 
   update(controls, pointer) {
