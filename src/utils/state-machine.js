@@ -25,7 +25,7 @@ class StateMachine {
     this.currentState.enter(null, args);
   }
 
-  handleInput(controls, args = []) {
+  handleInput(controls, pointer, args = []) {
     const nextStateName = this.currentState.execute(controls);
     if (nextStateName !== this.currentState.name) {
       this.currentState.exit();
