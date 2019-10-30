@@ -28,6 +28,10 @@ class Player extends Phaser.GameObjects.Sprite {
     return this.scene.time.delayedCall(time, callback, args, context);
   }
 
+  addKeyListener(key, condition, callback) {
+    this.scene.controls[key].once(condition, callback);
+  }
+
   jump() {
     this.body.setVelocityY(-300);
   }
