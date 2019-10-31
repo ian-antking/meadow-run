@@ -3,16 +3,17 @@ import State from '../../utils/state';
 class JumpState extends State {
   constructor(name, prefab) {
     super(name, prefab);
-    this.timeOut = false;
   }
 
   enter() {
+    this.updates = 0;
     this.timeOut = false;
-    this.timers.jumpTimer = setTimeout(() => this.timeOut = true, 500);
   }
 
   execute(command) {
-    if (this.timeOut) {
+    this.updates += 1;
+ 
+    if (this.updates === 30) {
       return 'fall';
     }
 
