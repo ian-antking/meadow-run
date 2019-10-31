@@ -5,8 +5,9 @@ import Platform from '../sprites/plaform';
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
-    this.difficulty = 2;
-    this.speed = 200 * this.difficulty;
+    this.difficulty = 1;
+    this.speed = 400;
+    this.command = [];
   }
 
   preload() {
@@ -16,11 +17,19 @@ export default class GameScene extends Phaser.Scene {
     this.platformGroup = this.add.group();
     this.addPlatform(this.game.config.width, 0, this.game.config.height - 70);
 
+    this.jumpButton = this.add.image(700, 500, 'jump-button')
+      .setDepth(5)
+      .setInteractive()
+      .on('pointerdown', () => {
+        this.command.push('jumpDown');
+      })
+      .on('pointerup', () => {
+        this.command.push('jumpUp');
+      });
+
     this.controls = this.input.keyboard.addKeys({
       jump: 'up',
     });
-
-    this.pointer = this.input.activePointer;
 
     this.player = new Player({
       scene: this,
@@ -69,6 +78,10 @@ export default class GameScene extends Phaser.Scene {
     }));
   }
 
+  generatePlatformDistance() {
+    return Math.ceil(Math.random() * 12) * 70;
+  }
+
   update() {
     const platforms = this.platformGroup.getChildren();
     const recentPlatform = platforms[platforms.length - 1];
@@ -78,9 +91,9 @@ export default class GameScene extends Phaser.Scene {
     platforms.forEach(platform => {
       platform.update(this.speed);
     });
-    if (recentPlatform.x + recentPlatform.width <= 800) {
+    if (recentPlatform.x + recentPlatform.width <= 800 - this.generatePlatformDistance()) {
       this.addPlatform(null, 800);
     }
-    this.player.update(this.controls);
+    this.player.update(this.command.pop());
   }
 }

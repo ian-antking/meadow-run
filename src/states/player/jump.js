@@ -3,27 +3,26 @@ import State from '../../utils/state';
 class JumpState extends State {
   constructor(name, prefab) {
     super(name, prefab);
+    this.timeOut = false;
   }
 
   enter() {
-    this.addDelayedCall('jumpTimer', 500, () => this.prefab.state.setState('fall'), [], this);
+    this.timeOut = false;
+    this.timers.jumpTimer = setTimeout(() => this.timeOut = true, 500);
   }
 
-  execute(controls) {
-    const {
-      jump,
-    } = controls;
-    if (jump.isDown) {
-      this.prefab.jump();
-    }
-    if (jump.isUp) {
+  execute(command) {
+    if (this.timeOut) {
       return 'fall';
     }
-    return this.prefab.body.velocity.y > 0 ? 'fall' : this.name;
-  }
 
-  exit() {
-    this.cleanupTimers();
+    this.prefab.jump();
+
+    if (this.prefab.body.touching.up) {
+      return 'fall';
+    }
+
+    return command !== 'jumpUp' ? this.name : 'fall';
   }
 }
 

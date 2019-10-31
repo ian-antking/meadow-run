@@ -6,25 +6,19 @@ class FallState extends State {
     this.doubleJump = false;
   }
 
-  enter() {
-    this.addKeyListener('jumpListener', 'jump', 'down', () => {
-      if (!this.doubleJump) {
-        this.setState('jump');
-        this.doubleJump = true;
-      }
-    });
-  }
 
-  execute() {
+  execute(command) {
     if (this.prefab.body.touching.down) {
       this.doubleJump = false;
       return 'move';
     }
-    return this.name;
-  }
 
-  exit() {
-    this.cleanupListener('jump');
+    if (command === 'jumpDown' && !this.doubleJump) {
+      this.doubleJump = true;
+      return 'jump';
+    }
+
+    return this.name;
   }
 }
 

@@ -16,30 +16,23 @@ class Player extends Phaser.GameObjects.Sprite {
     this.state = createStateMachine(this.scene, this, playerStates);
     createAnimations(this, this.scene, playerAminations);
     this.state.setInitialState('move');
-    this.body.setSize(50, 100);
-    this.body.setOffset(25, 20);
+    this.body.setSize(50, 90);
+    this.body.setOffset(25, 30);
+    this.setDepth(1);
   }
 
   get isAlive() {
     return this.body.y < this.scene.game.config.height;
   }
 
-  addDelayedCall(time, callback, args, context) {
-    return this.scene.time.delayedCall(time, callback, args, context);
-  }
-
-  addKeyListener(key, condition, callback) {
-    this.scene.controls[key].once(condition, callback);
-  }
-
   jump() {
     this.body.setVelocityY(-300);
   }
 
-  update(controls, pointer) {
+  update(command) {
     this.x = 100;
     this.anims.play(this.state.name, true);
-    this.state.handleInput(controls, pointer);
+    this.state.updateState(command);
   }
 }
 

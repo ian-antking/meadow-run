@@ -5,18 +5,16 @@ class MoveState extends State {
     super(name, prefab);
   }
 
-  execute(controls) {
-    const {
-      jump,
-    } = controls;
-
+  execute(command) {
     if (this.prefab.body.velocity.y > 0) {
       return 'fall';
     }
-    if (jump.isDown) {
-      return 'jump';
+    switch (command) {
+      case 'jumpDown':
+        return 'jump';
+      default:
+        return this.name;
     }
-    return this.name;
   }
 }
 

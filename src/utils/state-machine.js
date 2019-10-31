@@ -19,18 +19,24 @@ class StateMachine {
     this.currentState.enter();
   }
 
-  setState(nextState, args = []) {
+  setState(nextState) {
     this.currentState.exit();
     this.currentState = this.states[nextState];
-    this.currentState.enter(null, args);
+    this.currentState.enter(null);
   }
 
-  handleInput(controls, pointer, args = []) {
-    const nextStateName = this.currentState.execute(controls);
+  handleInput(command) {
+    if (command) {
+      this.updateState();
+    }
+  }
+
+  updateState(command) {
+    const nextStateName = this.currentState.execute(command);
     if (nextStateName !== this.currentState.name) {
       this.currentState.exit();
       this.currentState = this.states[nextStateName];
-      this.currentState.enter(controls, args);
+      this.currentState.enter(command);
     }
   }
 }

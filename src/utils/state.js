@@ -6,24 +6,6 @@ class State {
     this.listeners = {};
   }
 
-  addDelayedCall(name, time, callback, args, context) {
-    this.timers[name] = this.prefab.addDelayedCall(time, callback, args, context);
-  }
-
-  addKeyListener(name, key, condition, callback, args = null) {
-    this.listeners[name] = this.prefab.addKeyListener(key, condition, callback, args);
-  }
-
-  cleanupTimers() {
-    Object.keys(this.timers).forEach(timer => {
-      this.timers[timer].remove();
-    });
-  }
-
-  cleanupListener(key) {
-    this.prefab.scene.controls[key].removeAllListeners();
-  }
-
   enter() {
   }
 
