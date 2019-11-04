@@ -27,6 +27,15 @@ export default class GameScene extends Phaser.Scene {
         this.command.push('jumpUp');
       });
 
+    this.jumpKey = this.input.keyboard.addKey('UP');
+    this.jumpKey.on('down', () => {
+      this.command.push('jumpDown');
+    }).on('up', () => {
+      this.command.push('jumpUp');
+    });
+    console.log(this.jumpKey);
+
+
     this.controls = this.input.keyboard.addKeys({
       jump: 'up',
     });
